@@ -1,5 +1,8 @@
 import React from "react";
 
+import { connect } from "react-redux";
+import { deleteAuthor } from "./stores/actions";
+
 function AuthorCard(props) {
   const author = props.author;
   const authorName = `${author.first_name} ${author.last_name}`;
@@ -18,11 +21,31 @@ function AuthorCard(props) {
             <span>{authorName}</span>
           </h5>
           <small className="card-text">{author.books.length} books</small>
-          <button className="btn btn-danger btn-block">DELETE</button>
+          <button
+            className="btn btn-danger btn-block"
+            onClick={() => props.deleteAuthor(author.id)}
+          >
+            DELETE
+          </button>
         </div>
       </div>
     </div>
   );
 }
 
-export default AuthorCard;
+// const mapStateToProps = state => {
+//   return {
+//     authors: state.authors,
+//   };
+// };
+
+const mapDispatchToProps = dispatch => {
+  return {
+    deleteAuthor: authorID => dispatch(deleteAuthor(authorID))
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(AuthorCard);
